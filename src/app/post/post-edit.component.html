@@ -1,0 +1,39 @@
+<div>
+  <form (ngSubmit)="submit()" #postForm="ngForm" class="post-form" novalidate>
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" class="form-control" name="title" [(ngModel)]="post.title" #title="ngModel" required>
+      <div [hidden]="title.valid" class="alert alert-danger"  >Title is required  </div>
+    </div>
+    <div class="form-group">
+      <label>Content</label>
+      <angular-editor id="postContent" [(ngModel)]="post.content" [config]="editorConfig" name="content" #content="ngModel" required>
+        </angular-editor>
+      <!-- <input type="text" class="form-control" name="content" [(ngModel)]="post.content" #lastName="ngModel" required>class="form-control text-left"  -->
+      <div class="alert alert-danger" [hidden]="content.valid">Content is required</div>
+    </div>
+  <!--   <div class="form-group">
+      <label>Tag</label>
+      <select class="form-control" 
+              [(ngModel)]="post.tags"
+              name="tags" 
+               >
+          <option *ngFor="let state of states" [ngValue]="state.abbreviation">{{state.name}}</option>
+      </select>
+    </div> -->
+    <div *ngIf="post">
+      <div class="alert alert-warning" *ngIf="post.id && deleteMessageEnabled">
+         Delete Post?&nbsp;&nbsp;<button class="btn btn-danger" (click)="delete($event)">Yes</button>&nbsp;&nbsp;
+         <button class="btn btn-default" (click)="deleteMessageEnabled = false">No</button>
+      </div>
+      <button class="btn btn-danger" *ngIf="post.id && !deleteMessageEnabled" (click)="deleteMessageEnabled = true">Delete</button>&nbsp;&nbsp;
+
+      <div class="pull-right" *ngIf="!deleteMessageEnabled">
+        <button class="btn btn-default" (click)="cancel($event)">Cancel</button>&nbsp;&nbsp;
+        <button type="submit" class="btn btn-success" [disabled]="postForm.pristine || !postForm.valid">{{ operationText }}</button>
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="errorMessage != null">{{ errorMessage }}</div>
+  </form>
+  <br />
+</div>

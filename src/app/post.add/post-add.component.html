@@ -1,0 +1,34 @@
+<div>
+  <form (ngSubmit)="submit()" #addForm="ngForm" class="add-form" novalidate>
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" class="form-control" name="title" [(ngModel)]="post.title" #title="ngModel" required>
+      <div class="alert alert-danger" [hidden]="title.valid">Title is required</div>
+    </div>
+    <div class="form-group">
+        <label>Content</label>
+        <angular-editor id="postContent" [(ngModel)]="post.content" [config]="editorConfig" name="content" #content="ngModel" required>
+          </angular-editor>
+        <!-- <input type="text" class="form-control" name="content" [(ngModel)]="post.content" #lastName="ngModel" required>class="form-control text-left"  -->
+        <div class="alert alert-danger" [hidden]="content.valid">Content is required</div>
+      </div>
+    <!--   <div class="form-group">
+      <label>Tag</label>
+      <select class="form-control" 
+              [(ngModel)]="post.tags"
+              name="tags" 
+               >
+          <option *ngFor="let state of states" [ngValue]="state.abbreviation">{{state.name}}</option>
+      </select>
+    </div> -->
+    <div *ngIf="post">
+
+      <div class="pull-right">
+        <button class="btn btn-default" (click)="cancel($event)">Cancel</button>&nbsp;&nbsp;
+        <button type="submit" class="btn btn-success" [disabled]="addForm.pristine || !addForm.valid">{{ operationText }}</button>
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="errorMessage != null">{{ errorMessage }}</div>
+  </form>
+  <br />
+</div>

@@ -1,0 +1,25 @@
+<div>
+  <form (ngSubmit)="submit()" #addForm="ngForm" class="add-form" novalidate>
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" class="form-control" name="title" [(ngModel)]="post.title" #firstName="ngModel" required>
+      <div class="alert alert-danger" [hidden]="title.pristine || title.valid">Title is required</div>
+    </div>
+    <div class="form-group">
+      <label>Content</label>
+      <input type="text" class="form-control" name="content" [(ngModel)]="post.content" #lastName="ngModel" required>
+      <div class="alert alert-danger" [hidden]="post.content.pristine || post.content.valid">Content is required</div>
+    </div>
+  <!--   <div class="form-group">
+      <label>Tag</label>
+      <select class="form-control" 
+              [(ngModel)]="post.tags"
+              name="tags" 
+               >
+          <option *ngFor="let state of states" [ngValue]="state.abbreviation">{{state.name}}</option>
+      </select>
+    </div> -->
+    <div class="alert alert-danger" *ngIf="errorMessage != null">{{ errorMessage }}</div>
+  </form>
+  <br />
+</div>

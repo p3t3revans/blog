@@ -1,0 +1,62 @@
+<form [formGroup]="detailForm" (ngSubmit)="onSubmit()">
+  <div class="container" *ngIf="post">
+    <div class="row">
+      <div class="col-md-2">
+        <img src="assets/images/damien.png" class="details-image" />
+      </div>
+      <div class="col-md-10">
+        <h4>
+          {{ post.title | capitalize }} {{ post.createDate | date : 'dd/MMM/yyyy' }}&nbsp;
+        </h4>
+        <br />
+        <div class="form-group">
+          <label>Content</label>
+          <angular-editor id="postContent" [(ngModel)]="post.content" [config]="editorConfig" name="content" #content="ngModel" [ngModelOptions]="{standalone: true}">
+            </angular-editor>
+          <!-- <input type="text" class="form-control" name="content" [(ngModel)]="post.content" #lastName="ngModel" required>class="form-control text-left"  -->
+          <div class="alert alert-danger" [hidden]="content.valid">Content is required</div>
+        </div>
+        <br /> {{ post.author }}
+        <br/>
+        <button (click)="likePost()">Likes {{post.likes}}</button> <button (click)="dislikePost()">Dislikes {{post.dislikes}}</button>
+        <div class="row" *ngIf="post && post.comments[0]">
+          <h4>Comments for {{ post.title | capitalize }} {{ post.createDate | date: 'dd/MMM/yyyy' }}</h4>
+          <br />
+          <table class="table table-striped table-hover comments-table">
+            <tr *ngFor="let comment of post.comments; let j=index">
+              <td>{{ comment.text }}</td>
+              <td class="text-right">{{ comment.commentDate | date: 'dd/MMM/yyyy'}}</td>
+              <td class="text-right">{{ comment.createUser }}</td>
+              <td class="text-right"><button (click)="likeComment(comment._id,j)" >Likes {{ comment.likes }}</button></td>
+              <td class="text-right"><button (click)="dislikeComment(comment._id,j)" >dislikes {{ comment.dislikes }}</button></td>
+            </tr>
+          </table>
+        </div>
+        <div formArrayName="comments">
+          <div *ngFor="let comment of commentFroms.controls; let i=index" [formGroupName]="i">
+            <div>
+              <textarea cols="100" maxlength="150" formControlName="text" placeholder="Please enter your comment."></textarea>
+            </div>
+            <div>
+              <button (click)="saveComment(i)">Save</button>
+              <br/><br/>
+            </div>
+          </div>
+        </div>
+        <button (click)="addComment()">Add Comment</button>
+        <br/>
+        <div *ngIf="post && !post.comments[0]" class="row">
+          No comments found
+        </div>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+
+    </div>
+  </div>
+  <div *ngIf="!post" class="container">
+    No post found
+  </div>
+</form>
