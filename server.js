@@ -45,6 +45,7 @@ app.use('/api', post);
       var nodeSSPIObj = new nodeSSPI({
         retrieveGroups: false
       });
+      console.log('Hello ' + req.connection.user);
       try{
         nodeSSPIObj.authenticate(req, res, function (err) {
             res.finished || next()
